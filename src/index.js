@@ -28,7 +28,7 @@ class Board extends React.Component {
     //создаем конструктор, чтобы сделать подбем состояния детей (Square) родителю
     constructor(props) {
         super(props);
-        this.state = {
+        this.state = { 
             squares: Array(9).fill(null),//изначально все квадратики типа нулёвые
         };
     } 

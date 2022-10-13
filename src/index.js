@@ -31,7 +31,7 @@ class Board extends React.Component {
         this.state = {
             squares: Array(9).fill(null),//изначально все квадратики типа нулёвые
         };
-    }
+    } 
 
     handleClick(i){
         const squares = this.state.squares.slice();

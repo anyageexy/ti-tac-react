@@ -3,31 +3,58 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 
 class Square extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            value: null,
-        };
-    }
+    // constructor(props) {
+    //     super(props);
+    //     this.state = {
+    //         value: null,
+    //     };
+    // }
 
     render() {
         return (
             <button
                 className="square"
-                onClick={() => { this.setState({ value: "X" }) }}
-                //устанавливаем знаечние и ниже присваиваем его кнопке
+                // onClick={() => { this.setState({ value: "X" }) }}
+                onClick={() => { this.props.onClick() }}
+            //устанавливаем знаечние и ниже присваиваем его кнопке
             >
-                {this.state.value}
+                {this.props.value}
             </button>
         );
     }
 }
 
 class Board extends React.Component {
+    //создаем конструктор, чтобы сделать подбем состояния детей (Square) родителю
+    constructor(props) {
+        super(props);
+        this.state = {
+            squares: Array(9).fill(null),//изначально все квадратики типа нулёвые
+        };
+    }
+
+    handleClick(i){
+        const squares = this.state.squares.slice();
+        squares[i] ="X";
+        this.setState({squares: squares});
+    }
+
+
     renderSquare(i) {
-        return <Square value={i} />;
+        // return <Square value={i} />;
         //прописываем value, чтобы потом отдать пропсы компоненту square
         //т.е. передаем проп от родителя к ребенку
+
+
+        // теперь делаем такой вариант, чтобы мы передавати каждому ребенку
+        //его состояние
+        return <Square
+            value={this.state.squares[i]}
+
+            //а теперь будем вызывать функцию, когдла будет клик по элементу
+            onClick={() => this.handleClick(i)}
+
+        />
     }
 
     render() {

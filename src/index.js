@@ -2,41 +2,61 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 
-class Square extends React.Component {
-    // constructor(props) {
-    //     super(props);
-    //     this.state = {
-    //         value: null,
-    //     };
-    // }
+// class Square extends React.Component {
+//     // constructor(props) {
+//     //     super(props);
+//     //     this.state = {
+//     //         value: null,
+//     //     };
+//     // }
 
-    render() {
-        return (
-            <button
-                className="square"
-                // onClick={() => { this.setState({ value: "X" }) }}
-                onClick={() => { this.props.onClick() }}
-            //устанавливаем знаечние и ниже присваиваем его кнопке
-            >
-                {this.props.value}
-            </button>
-        );
-    }
+//     render() {
+//         return (
+//             <button
+//                 className="square"
+//                 // onClick={() => { this.setState({ value: "X" }) }}
+//                 onClick={() => { this.props.onClick() }}
+//             //устанавливаем знаечние и ниже присваиваем его кнопке
+//             >
+//                 {this.props.value}
+//             </button>
+//         );
+//     }
+// }
+
+// ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ этот классовый компоненр заменим на функциональный
+// он будет только брать пропсы и рендериться
+// ↓↓↓↓↓↓ функциональный
+
+function Square(props){
+    return(
+        <button className='square' onClick={props.onClick}>
+            {props.value}
+        </button>
+    );
 }
 
-class Board extends React.Component {
-    //создаем конструктор, чтобы сделать подбем состояния детей (Square) родителю
-    constructor(props) { 
-        super(props);
-        this.state = { 
-            squares: Array(9).fill(null),//изначально все квадратики типа нулёвые
-        };
-    } 
 
-    handleClick(i){
+class Board extends React.Component {
+    //создаем конструктор, чтобы сделать подъем состояния детей (Square) родителю
+    constructor(props) {
+        super(props);
+        this.state = {
+            squares: Array(9).fill(null),//изначально все квадратики типа нулёвые
+            xIsNext : true,//чтобы была очередность, заведем булевую пременную
+        };
+    }
+
+    handleClick(i) {
         const squares = this.state.squares.slice();
-        squares[i] ="X";
-        this.setState({squares: squares});
+
+        // проверка: если xIsNext тру - значит рисуем Х, иначе - О
+        squares[i] = this.state.xIsNext ? 'X' : 'O';
+        // squares[i] = "X";
+        this.setState({ 
+            squares: squares,
+            xIsNext: !this.state.xIsNext, //при клике инвертируем состояние, чтобы была очередность
+        });
     }
 
 

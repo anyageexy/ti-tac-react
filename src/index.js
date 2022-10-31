@@ -49,6 +49,10 @@ class Board extends React.Component {
 
     handleClick(i) {
         const squares = this.state.squares.slice();
+        // выход из функции или игнорирование если, победитель уде есть
+        if(calculateWinner(squares) || squares[i]){
+            return;
+        }
 
         // проверка: если xIsNext тру - значит рисуем Х, иначе - О
         squares[i] = this.state.xIsNext ? 'X' : 'O';
@@ -78,8 +82,16 @@ class Board extends React.Component {
     }
 
     render() {
-        const status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
+        // const status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
 
+        // определение побелителя
+        const winner = calculateWinner(this.state.squares);
+        let status;
+        if (winner){
+            status = "Win " + winner
+        } else {
+            status = 'Next: ' + (this.state.xIsNext ? 'X' : 'O');
+        }
         return (
             <div>
                 <div className="status">{status}</div>
